@@ -1,0 +1,7 @@
+<button
+  [ngClass]="{
+    'primary': type === 'primary',
+    'secondary': type === 'secondary'
+  }">
+  <ng-content select="[content]"></ng-content>
+</button>
