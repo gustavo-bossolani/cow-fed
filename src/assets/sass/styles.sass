@@ -1,0 +1,30 @@
+@import reset
+@import variables
+
+
+body
+  background: $base-color
+
+input
+  border: 1px solid $secondary-color
+  outline: none
+  border-radius: 5px
+  padding: 10px
+  font-family: 'mulish-regular', sans-serif
+  font-size: 16px
+
+  &:focus-visible
+    border: 1px solid $primary-color
+
+a
+  font-size: 12px
+  font-family: 'mulish-light', sans-serif
+  color: $primary-color
+  &:hover
+    cursor: pointer
+    color: darken($secondary-color, 20%)
+
+.error-message
+  font-size: 16px
+  color: $error-text-color
+  font-family: 'mulish-bold', sans-serif
