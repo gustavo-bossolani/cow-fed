@@ -5,10 +5,15 @@ button
   border-radius: 5px
   padding: .5rem 1rem
   font-family: 'mulish-bold', sans-serif
-
-button:hover
-  cursor: pointer
-
+  &:disabled
+    background: $disabled-color
+    color: black
+    &:hover
+      background: $disabled-color
+      color: black
+      cursor: no-drop
+  &:hover
+    cursor: pointer
 
 .primary
   color: white
@@ -17,7 +22,6 @@ button:hover
 .primary:hover
   background: lighten($primary-color, 5%)
 
-
 .secondary
   color: white
   background: $secondary-color
@@ -25,4 +29,5 @@ button:hover
 .secondary:hover
   background: darken($secondary-color, 5%)
 
-
+.loading
+  margin: 1rem

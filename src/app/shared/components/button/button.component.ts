@@ -9,4 +9,8 @@ import { Component, Input } from '@angular/core';
 export class ButtonComponent {
   @Input()
   type!: 'primary' | 'secondary';
+
+  @Input()
+  disabled = false;
+
 }

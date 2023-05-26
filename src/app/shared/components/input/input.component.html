@@ -1,0 +1,10 @@
+<div class="input-control">
+  <input
+    (blur)="onTouched(null)"
+    [ngClass]="{ 'error': control.touched && control.errors }"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    [type]="type"
+    [(ngModel)]="value" />
+  <ng-content></ng-content>
+</div>

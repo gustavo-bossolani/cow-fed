@@ -3,20 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { InputModule } from './components/input/input.module';
 import { ButtonModule } from './components/button/button.module';
-
-import { ErrorIndicatorDirective } from './directives/error-indicator.directive';
-
+import { LoaderModule } from './components/loader/loader.module';
 @NgModule({
-  declarations: [
-    ErrorIndicatorDirective,
-  ],
   imports: [
     CommonModule,
     InputModule,
-    ButtonModule
-  ],
-  exports: [
-    ErrorIndicatorDirective,
+    ButtonModule,
+    LoaderModule
   ]
 })
 export class SharedModule { }
