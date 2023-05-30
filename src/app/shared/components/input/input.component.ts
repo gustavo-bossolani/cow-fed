@@ -23,6 +23,9 @@ export class InputComponent implements ControlValueAccessor, Validator {
   @Input()
   disabled!: boolean;
 
+  @Input()
+  hint!: string;
+
   protected control!: FormControl;
   protected onTouched = (_: any) => { };
 
@@ -34,7 +37,7 @@ export class InputComponent implements ControlValueAccessor, Validator {
     protected placeholder: string,
 
     @Attribute('type')
-    protected type: string
+    protected type: string,
   ) { }
 
   set value(value: string) {

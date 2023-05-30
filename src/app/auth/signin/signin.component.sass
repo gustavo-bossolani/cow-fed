@@ -11,7 +11,8 @@ form
   flex-direction: column
   justify-content: space-around
   align-items: center
-  width: 100%
+  padding: 1rem
+  width: 40%
 
 h1
   text-align: center
@@ -19,10 +20,9 @@ h1
   margin: 2rem 0
   font-family: 'mulish-bold', sans-serif
 
-input
+cow-input
   margin: 1rem 0
-  max-width: 50%
-  min-width: 20%
+  width: 80%
 
 p
   font-size: 16px
@@ -40,10 +40,10 @@ cow-button
 .loading
   margin: 1rem
 
-cow-input
-  width: 20%
-  min-width: 200px
-
 @media screen and (max-width: 700px)
   h1
     font-size: 1.5rem
+
+@media screen and (max-width: 600px)
+  form
+    width: 80%

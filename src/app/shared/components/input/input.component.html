@@ -3,8 +3,12 @@
     (blur)="onTouched(null)"
     [ngClass]="{ 'error': control.touched && control.errors }"
     [disabled]="disabled"
-    [placeholder]="placeholder"
+    [placeholder]="placeholder ? placeholder : ''"
     [type]="type"
     [(ngModel)]="value" />
+
+    <ng-container *ngIf="hint && !(control.errors && control.touched)">
+      <small>{{ hint }}</small>
+    </ng-container>
   <ng-content></ng-content>
 </div>

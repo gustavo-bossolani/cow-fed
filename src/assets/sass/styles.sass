@@ -1,6 +1,9 @@
 @import reset
 @import variables
 
+*
+  font-family: 'mulish-regular', sans-serif
+
 
 body
   background: $base-color
@@ -17,14 +20,16 @@ input
     border: 1px solid $primary-color
 
 a
-  font-size: 12px
+  font-size: 1rem
   font-family: 'mulish-light', sans-serif
   color: $primary-color
+  text-decoration: none
+  text-align: center
   &:hover
     cursor: pointer
     color: darken($secondary-color, 20%)
 
 .error-message
-  font-size: 16px
+  font-size: .8rem
   color: $error-text-color
   font-family: 'mulish-bold', sans-serif
