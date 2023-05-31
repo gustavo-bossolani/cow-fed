@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { BehaviorSubject, Observable, combineLatestWith, map, take } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatestWith, map, take, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
@@ -20,17 +20,22 @@ export class AuthService {
 
   private authRoute = 'auth';
 
-  private authToken$ = new BehaviorSubject<string | null>(null);
-  private user$ = new BehaviorSubject<User | null>(null);
+  readonly authToken$ = new BehaviorSubject<string | null>(null);
+  readonly user$ = new BehaviorSubject<User | null>(null);
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    this.authToken$.pipe(tap(response => console.log(response))).subscribe();
+  }
 
   signin({ username, password }: SigninForm): Observable<SigningResponse> {
     return this.http.post<SigningResponse>(
       `${environment.apiUrl}/${this.authRoute}/signin`,
       { username, password }
+    )
+      .pipe(
+        tap(response => this.authToken$.next(response.access)),
     );
   }
 
@@ -54,14 +59,6 @@ export class AuthService {
           return !!token && !!user;
         })
       )
-  }
-
-  getAuthToken(): Observable<string | null> {
-    return this.authToken$.asObservable();
-  }
-
-  getUser(): Observable<User | null> {
-    return this.user$.asObservable();
   }
 
 }

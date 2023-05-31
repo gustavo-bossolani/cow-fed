@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
 import { SigninForm } from 'src/app/shared/models/auth/signin/signin-form.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'cow-signin',
@@ -23,7 +24,8 @@ export class SigninComponent {
 
   constructor(
     private builder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   handleSubmit() {
@@ -33,25 +35,18 @@ export class SigninComponent {
     this.signinForm.disable();
 
     this.authService.signin({ username, password })
-      .pipe(
-        map(response => response),
-        tap({
-          error: () => {
-            this.isLoading$.next(false);
-            this.signinForm.enable();
-          },
-          complete: () => {
-            this.isLoading$.next(false);
-            this.signinForm.enable();
-          }
-        }),
-      )
       .subscribe(
         {
-          next: response => {
-            console.log('access', response.access);
+          next: ({ access }) => {
+            if (access) {
+              this.isLoading$.next(false);
+              this.signinForm.reset();
+              this.router.navigate(['dashboard']);
+            }
           },
           error: (error: HttpErrorResponse) => {
+            this.isLoading$.next(false);
+            this.signinForm.enable();
             if (error.status === 401) {
               for (const field in this.signinForm.controls) {
                 const control = this.signinForm.get(field);

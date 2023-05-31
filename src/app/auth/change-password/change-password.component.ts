@@ -39,25 +39,15 @@ export class ChangePasswordComponent {
     this.changePasswordForm.disable();
 
     this.authService.changePassword({ username, secret, newPassword })
-      .pipe(
-        map(response => response),
-        tap({
-          error: () => {
-            this.isLoading$.next(false);
-            this.changePasswordForm.enable();
-          },
-          complete: () => {
-            this.isLoading$.next(false);
-            this.changePasswordForm.enable();
-          }
-        }),
-      )
       .subscribe(
         {
           next: response => {
+            this.changePasswordForm.reset();
             console.log('access', response);
           },
           error: (error: HttpErrorResponse) => {
+            this.isLoading$.next(false);
+            this.changePasswordForm.enable();
             if (error.status === 401) {
               this.changePasswordForm.setErrors({ wrongCredentials: true });
               for (const field in this.changePasswordForm.controls) {
