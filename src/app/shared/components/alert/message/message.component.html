@@ -1,7 +1,12 @@
-<div #alert class="container" [ngClass]="type">
+<div
+  #alert
+  class="container"
+  [ngClass]="type"
+  (click)="onCloseButton.next('close')">
+
   <div class="message">
     <p>{{ message }}</p>
-    <button (click)="onCloseButton.next('close')">X</button>
+    <button>X</button>
   </div>
   <span></span>
 </div>
