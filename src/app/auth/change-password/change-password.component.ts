@@ -1,7 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { BehaviorSubject, map, tap } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+
+import { AlertType } from 'src/app/shared/components/alert/models/alert.model';
+import { AlertService } from 'src/app/shared/components/alert/services/alert.service';
 
 import { ChangePasswordForm } from 'src/app/shared/models/auth/change-password/change-password-form';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
@@ -28,7 +31,8 @@ export class ChangePasswordComponent {
 
   constructor(
     private builder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertService: AlertService,
   ) { }
 
   handlePasswordChange() {
@@ -41,9 +45,9 @@ export class ChangePasswordComponent {
     this.authService.changePassword({ username, secret, newPassword })
       .subscribe(
         {
-          next: response => {
+          next: _ => {
             this.changePasswordForm.reset();
-            console.log('access', response);
+            this.alertService.openAlert({ type: AlertType.SUCCESS, message: 'Senha alterada com sucesso!' });
           },
           error: (error: HttpErrorResponse) => {
             this.isLoading$.next(false);

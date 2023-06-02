@@ -69,6 +69,7 @@
     </span>
 
     <cow-button
+      [disabled]="signinForm.invalid || !!(isLoading$ | async)"
       type="primary">
       <p content>Continuar</p>
     </cow-button>
