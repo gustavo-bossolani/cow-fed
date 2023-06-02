@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AlertModule } from './shared/components/alert/alert.module';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -14,7 +15,6 @@ import { AlertModule } from './shared/components/alert/alert.module';
     AppRoutingModule,
     AlertModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

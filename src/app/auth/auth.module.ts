@@ -6,8 +6,6 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AuthService } from '../shared/services/auth/auth.service';
-
 import { ChangePasswordModule } from './change-password/change-password.module';
 import { SigninModule } from './signin/signin.module';
 import { RouterModule } from '@angular/router';
@@ -24,6 +22,5 @@ import { RouterModule } from '@angular/router';
     ChangePasswordModule,
     SigninModule
   ],
-  providers: [AuthService]
 })
 export class AuthModule { }

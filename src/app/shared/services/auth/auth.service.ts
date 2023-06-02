@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { BehaviorSubject, Observable, combineLatestWith, map, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map, of, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
 import { SigninForm } from '../../models/auth/signin/signin-form.model';
 import { ChangePasswordForm } from '../../models/auth/change-password/change-password-form';
+
 import { User } from '../../models/user/user.model';
 
 interface SigningResponse {
@@ -19,15 +20,14 @@ interface SigningResponse {
 export class AuthService {
 
   private authRoute = 'auth';
+  private userRoute = 'user';
 
-  readonly authToken$ = new BehaviorSubject<string | null>(null);
-  readonly user$ = new BehaviorSubject<User | null>(null);
+  private authToken$ = new BehaviorSubject<string | null>(null);
+  private user$ = new BehaviorSubject<User | null>(null);
 
   constructor(
     private http: HttpClient
-  ) {
-    this.authToken$.pipe(tap(response => console.log(response))).subscribe();
-  }
+  ) { }
 
   signin({ username, password }: SigninForm): Observable<SigningResponse> {
     return this.http.post<SigningResponse>(
@@ -35,7 +35,8 @@ export class AuthService {
       { username, password }
     )
       .pipe(
-        tap(response => this.authToken$.next(response.access)),
+        tap(response => this.authToken$.next(response.access)
+      ),
     );
   }
 
@@ -52,13 +53,16 @@ export class AuthService {
   }
 
   isUserLogged(): Observable<boolean> {
+    // TODO: incluir validação via http do token
+    // TODO: guardar o token de sessão no formato de cookie
     return this.authToken$
       .pipe(
-        combineLatestWith(this.user$),
-        map(([token, user]) => {
-          return !!token && !!user;
-        })
+        map(token => !!token)
       )
+  }
+
+  getUser(): Observable<User> {
+    return this.http.get<User>(`${environment.apiUrl}/${this.userRoute}`);
   }
 
 }
