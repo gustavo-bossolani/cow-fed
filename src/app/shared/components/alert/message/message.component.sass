@@ -1,0 +1,79 @@
+@import variables
+
+.container
+  display: flex
+  justify-content: space-between
+  flex-direction: column
+  align-items: center
+  height: 3vh
+  width: 350px
+  padding: 2rem
+  font-family: 'mulish-bold', sans-serif
+  box-shadow: 0px 0px 10px 0px grey
+  border-radius: 5px
+  margin: 2rem
+  transform: translateX(-200%)
+  transition: all .5s
+
+.message
+  display: flex
+  justify-content: space-between
+  align-content: flex-start
+
+
+.showed
+  transform: translateX(0)
+
+p
+  font-family: 'mulish-bold', sans-serif
+
+span
+  border-top: 3px solid rgba(0, 0, 0, 20%)
+  border-radius: 5px
+  width: 100%
+  position: absolute
+  bottom: 0
+  left: 0
+  align-self: flex-start
+  animation: countdown linear 7.2s
+
+button
+  background: transparent
+  border-radius: 100%
+  padding: 6px 10px
+  font-family: 'mulish-regular', sans-serif
+  &:hover
+    cursor: pointer
+
+.error
+  background: lighten($error-text-color, 20%)
+  color: $base-text-color
+  border-left: 5px solid darken($error-text-color, 10%)
+  button
+    border: 1px solid darken($error-text-color, 10%)
+    color: darken($error-text-color, 10%)
+
+.info
+  background: $secondary-color
+  color: $base-text-color
+  border-left: 5px solid darken($secondary-color, 50%)
+  button
+    border: 1px solid darken($secondary-color, 30%)
+    color: darken($secondary-color, 30%)
+
+.success
+  background: lighten($success-color, 20%)
+  color: $base-text-color
+  border-left: 5px solid darken($success-color, 10%)
+  button
+    border: 1px solid darken($success-color, 20%)
+    color: darken($success-color, 15%)
+
+@keyframes countdown
+  0%
+    width: 100%
+
+  100%
+    width: 0%
+
+
