@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { BehaviorSubject, Observable, Subject, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, catchError, map, mergeMap, of, tap, throwError } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
@@ -53,12 +53,28 @@ export class AuthService {
   }
 
   isUserLogged(): Observable<boolean> {
-    // TODO: incluir validação via http do token
     // TODO: guardar o token de sessão no formato de cookie
     return this.authToken$
       .pipe(
-        map(token => !!token)
+        mergeMap(token => {
+          if (token) {
+            const headers = new HttpHeaders({
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            })
+            return this.http.get(`${environment.apiUrl}/${this.authRoute}`, { headers })
+              .pipe(
+                map(() => true),
+                catchError(() => of(false))
+              );
+          }
+          return of(false);
+        }),
       )
+  }
+
+  getToken(): string | null {
+    return this.authToken$.value;
   }
 
   getUser(): Observable<User> {
