@@ -41,7 +41,7 @@ export class SigninComponent {
             if (access) {
               this.isLoading$.next(false);
               this.signinForm.reset();
-              this.router.navigate(['dashboard']);
+              this.router.navigate(['overview']);
             }
           },
           error: (error: HttpErrorResponse) => {
