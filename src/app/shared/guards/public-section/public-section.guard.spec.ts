@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SessionGuard } from './session.guard';
+import { PublicSectionGuard } from './public-section.guard';
 
-describe('SessionGuardGuard', () => {
-  let guard: SessionGuard;
+describe('PublicSectionGuard', () => {
+  let guard: PublicSectionGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(SessionGuard);
+    guard = TestBed.inject(PublicSectionGuard);
   });
 
   it('should be created', () => {

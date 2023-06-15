@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-import { SessionGuard } from './shared/guards/session.guard';
+import { PrivateSectionGuard } from './shared/guards/private-section/private-section.guard';
+import { PublicSectionGuard } from './shared/guards/public-section/public-section.guard';
+
 
 const routes: Routes = [
   {
@@ -10,11 +12,19 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
-  { path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  {
+    canActivate: [PublicSectionGuard],
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+  },
+  {
+    canActivate: [PublicSectionGuard],
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+  },
   {
     path: 'overview',
-    canActivate: [SessionGuard],
+    canActivate: [PrivateSectionGuard],
     loadChildren: () => import('./overview/overview.module')
       .then(m => m.OverviewModule)
   },

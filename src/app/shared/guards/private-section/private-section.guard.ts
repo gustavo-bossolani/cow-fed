@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
-import { AlertService } from '../components/alert/services/alert.service';
-import { AlertType } from '../components/alert/models/alert.model';
-import { SidebarMenuService } from '../components/sidebar-menu/services/sidebar-menu.service';
+import { AlertService } from '../../components/alert/services/alert.service';
+
+import { AlertType } from '../../components/alert/models/alert.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class SessionGuard {
+export class PrivateSectionGuard {
 
   constructor(
     private authService: AuthService,
