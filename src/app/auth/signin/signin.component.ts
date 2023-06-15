@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 
-import { BehaviorSubject, map, tap } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { AuthService } from 'src/app/shared/services/auth/auth.service';

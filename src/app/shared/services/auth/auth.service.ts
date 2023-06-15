@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { BehaviorSubject, Observable, Subject, catchError, map, mergeMap, of, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, catchError, map, mergeMap, of, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
@@ -22,11 +23,12 @@ export class AuthService {
   private authRoute = 'auth';
   private userRoute = 'user';
 
-  private authToken$ = new BehaviorSubject<string | null>(null);
-  private user$ = new BehaviorSubject<User | null>(null);
+  user$ = new Subject<User>();
+  isLogged$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) { }
 
   signin({ username, password }: SigninForm): Observable<SigningResponse> {
@@ -35,7 +37,7 @@ export class AuthService {
       { username, password }
     )
       .pipe(
-        tap(response => this.authToken$.next(response.access)
+        tap(response => sessionStorage.setItem(environment.authTokenSessionKey, response.access)
       ),
     );
   }
@@ -48,37 +50,40 @@ export class AuthService {
   }
 
   logout(): void {
-    this.authToken$.next(null);
-    this.user$.next(null);
+    sessionStorage.removeItem(environment.authTokenSessionKey);
+    this.user$ = new Subject<User>();
+    this.isLogged$.next(false);
+    this.router.navigate(['auth'])
   }
 
-  isUserLogged(): Observable<boolean> {
-    // TODO: guardar o token de sessão no formato de cookie
-    return this.authToken$
+  userHaveSession(): Observable<boolean> {
+    const token = sessionStorage.getItem(environment.authTokenSessionKey);
+
+    if (!token) {
+      return of(false);
+    }
+
+    return of(token)
       .pipe(
         mergeMap(token => {
-          if (token) {
-            const headers = new HttpHeaders({
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            })
-            return this.http.get(`${environment.apiUrl}/${this.authRoute}`, { headers })
-              .pipe(
-                map(() => true),
-                catchError(() => of(false))
-              );
-          }
-          return of(false);
+          const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          })
+          return this.http.get(`${environment.apiUrl}/${this.authRoute}`, { headers })
+            .pipe(
+              map(() => true),
+              catchError(() => of(false))
+            );
         }),
-      )
-  }
-
-  getToken(): string | null {
-    return this.authToken$.value;
+      );
   }
 
   getUser(): Observable<User> {
-    return this.http.get<User>(`${environment.apiUrl}/${this.userRoute}`);
+    return this.http.get<User>(`${environment.apiUrl}/${this.userRoute}`)
+      .pipe(
+        tap(user => this.user$.next(user))
+      );
   }
 
 }

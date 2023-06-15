@@ -1,10 +1,11 @@
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { AlertService } from '../components/alert/services/alert.service';
 import { AlertType } from '../components/alert/models/alert.model';
+import { SidebarMenuService } from '../components/sidebar-menu/services/sidebar-menu.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,9 @@ export class SessionGuard {
     state: RouterStateSnapshot
   ): Observable<boolean> {
     return this.authService
-      .isUserLogged()
+      .userHaveSession()
       .pipe(
+        tap(isLogged => this.authService.isLogged$.next(isLogged)),
         tap(isLogged => {
           if (!isLogged) {
             this.router.navigate(['auth']);
@@ -32,5 +34,4 @@ export class SessionGuard {
         }),
       )
   }
-
 }

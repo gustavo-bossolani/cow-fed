@@ -7,6 +7,8 @@ import {
 
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 
+import { environment } from 'src/environments/environment';
+
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
 
@@ -15,7 +17,7 @@ export class AuthTokenInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler) {
-    const token = this.authService.getToken();
+    const token = sessionStorage.getItem(environment.authTokenSessionKey);
 
     if (token) {
       const requestWithHeaders = request.clone({

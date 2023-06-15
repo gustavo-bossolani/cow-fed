@@ -1,2 +1,5 @@
 <cow-alert></cow-alert>
+<cow-sidebar-menu
+  *ngIf="(sideBarService.isSideBarEnabled | async)">
+</cow-sidebar-menu>
 <router-outlet></router-outlet>
