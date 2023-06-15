@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { BehaviorSubject, Observable, Subject, catchError, map, mergeMap, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, mergeMap, of, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
 import { SigninForm } from '../../models/auth/signin/signin-form.model';
 import { ChangePasswordForm } from '../../models/auth/change-password/change-password-form';
 
-import { User } from '../../models/user/user.model';
+import { UserService } from '../user/user.service';
 
 interface SigningResponse {
   access: string;
@@ -21,14 +21,13 @@ interface SigningResponse {
 export class AuthService {
 
   private authRoute = 'auth';
-  private userRoute = 'user';
 
-  user$ = new Subject<User>();
   isLogged$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
   signin({ username, password }: SigninForm): Observable<SigningResponse> {
@@ -51,9 +50,9 @@ export class AuthService {
 
   logout(): void {
     sessionStorage.removeItem(environment.authTokenSessionKey);
-    this.user$ = new Subject<User>();
+    this.userService.user$.next(null);
     this.isLogged$.next(false);
-    this.router.navigate(['auth'])
+    this.router.navigate(['auth']);
   }
 
   userHaveSession(): Observable<boolean> {
@@ -72,17 +71,20 @@ export class AuthService {
           })
           return this.http.get(`${environment.apiUrl}/${this.authRoute}`, { headers })
             .pipe(
+              tap(() => {
+                if (!this.isLogged$.value) {
+                  this.isLogged$.next(true);
+                }
+              }),
               map(() => true),
-              catchError(() => of(false))
+              catchError(() => {
+                if (this.isLogged$.value) {
+                  this.isLogged$.next(false);
+                }
+                return of(false)
+              })
             );
         }),
-      );
-  }
-
-  getUser(): Observable<User> {
-    return this.http.get<User>(`${environment.apiUrl}/${this.userRoute}`)
-      .pipe(
-        tap(user => this.user$.next(user))
       );
   }
 
