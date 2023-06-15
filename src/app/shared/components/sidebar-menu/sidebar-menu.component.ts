@@ -51,7 +51,7 @@ export class SidebarMenuComponent implements OnInit, OnDestroy {
     },
     {
       label: 'Apontamentos',
-      path: '/appointments',
+      path: '/statements',
       currentSection: false,
       icon: faReceipt,
       logout: false

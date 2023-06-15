@@ -29,6 +29,12 @@ const routes: Routes = [
       .then(m => m.OverviewModule)
   },
   {
+    path: 'statements',
+    canActivate: [PrivateSectionGuard],
+    loadChildren: () => import('./statement/statement.module')
+      .then(m => m.StatementModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
