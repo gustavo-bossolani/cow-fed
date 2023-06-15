@@ -9,7 +9,7 @@
     </fa-icon>
   </div>
 
-  <div *ngIf="(user | async) as user" class="profile">
+  <div *ngIf="(userService.user$ | async) as user" class="profile">
     <span>{{ user.username[0].toUpperCase() }}</span>
     <div>
       <b>Olá</b>

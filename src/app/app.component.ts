@@ -13,8 +13,8 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
 export class AppComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
-    protected sideBarService: SidebarMenuService
+    protected sideBarService: SidebarMenuService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {

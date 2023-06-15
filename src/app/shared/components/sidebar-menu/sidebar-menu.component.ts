@@ -1,6 +1,9 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription, filter, map, tap, Observable } from 'rxjs';
+import { Subscription, filter, map, tap } from 'rxjs';
+
+import {  } from '@angular/core';
+
 
 import {
   faChartLine,
@@ -14,7 +17,7 @@ import {
 import { AuthService } from '../../services/auth/auth.service';
 import { SidebarMenuService } from './services/sidebar-menu.service';
 
-import { User } from '../../models/user/user.model';
+import { UserService } from '../../services/user/user.service';
 
 interface Section extends Object {
   label: string;
@@ -68,21 +71,21 @@ export class SidebarMenuComponent implements OnInit, OnDestroy {
     },
   ];
 
-  protected user!: Observable<User>;
   protected menuButtonIcon = faBars;
 
   private subscriptions: Subscription[] = [];
 
   constructor(
     protected menuService: SidebarMenuService,
+    protected userService: UserService,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
   ) { }
 
   ngOnInit(): void {
     this.populateMenu(this.router.url);
+    this.verifyUserInformation();
     this.listenRouterEvents();
-    this.user = this.auth.user$.asObservable();
   };
 
   handleOpenCloseMenu(): void {
@@ -103,9 +106,14 @@ export class SidebarMenuComponent implements OnInit, OnDestroy {
   };
 
   ngOnDestroy(): void {
-    console.log('side bar destroyed')
     this.subscriptions.forEach(item => item.unsubscribe());
   };
+
+  private verifyUserInformation(): void {
+    if (!this.userService.user$.value) {
+      this.userService.getUser().subscribe();
+    }
+  }
 
   private listenRouterEvents(): void {
     const subscription = this.router.events
@@ -113,7 +121,6 @@ export class SidebarMenuComponent implements OnInit, OnDestroy {
         filter(event => event instanceof NavigationEnd),
         map(event => event as NavigationEnd),
         map(event => event.url),
-        tap(() => console.log('sidenav navigationend event')),
         tap(url => this.populateMenu(url)),
       )
       .subscribe();
