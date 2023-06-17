@@ -1,38 +1,12 @@
-<div #container class="container closed">
-
-  <div *ngIf="(menuService.isLoading | async)" class="overlay"></div>
-
-  <div class="menu-button">
-    <fa-icon
-      (click)="handleOpenCloseMenu()"
-      [icon]="menuButtonIcon">
-    </fa-icon>
-  </div>
-
-  <div *ngIf="(userService.user$ | async) as user" class="profile">
-    <span>{{ user.username[0].toUpperCase() }}</span>
-    <div>
-      <b>Olá</b>
-      <p>{{ user.username }}</p>
-    </div>
-  </div>
-
-  <hr>
-
-  <ul>
-    <li
-      [ngClass]="
-        {
-          'selected': section.currentSection,
-          'exit': !section.path
-        }
-      "
-      (click)="navigate(section)"
-      *ngFor="let section of sections">
-
-       <fa-icon [icon]="section.icon"></fa-icon>
-      <p>{{ section.label }}</p>
-
-    </li>
-  </ul>
+<div class="container">
+    <p-menu
+    #container
+    [style]="{
+      fontFamily: 'mulish-regular, sans-serif',
+      border: 'none',
+    }"
+    styleClass="menu"
+    [model]="items">
+  </p-menu>
 </div>
+

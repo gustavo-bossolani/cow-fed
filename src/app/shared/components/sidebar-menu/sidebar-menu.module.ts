@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MenuModule } from 'primeng/menu';
+import { SectionTitleModule } from '../section-title/section-title.module';
 
 import { SidebarMenuService } from './services/sidebar-menu.service';
 
@@ -11,7 +12,8 @@ import { SidebarMenuComponent } from './sidebar-menu.component';
   declarations: [SidebarMenuComponent],
   imports: [
     CommonModule,
-    FontAwesomeModule
+    MenuModule,
+    SectionTitleModule
   ],
   exports: [SidebarMenuComponent],
   providers: [SidebarMenuService]
