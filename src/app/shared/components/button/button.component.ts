@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class ButtonComponent {
   @Input()
-  type!: 'primary' | 'secondary';
+  type: 'primary' | 'secondary' = 'primary';
 
   @Input()
   disabled = false;
