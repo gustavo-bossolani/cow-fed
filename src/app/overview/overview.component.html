@@ -1,6 +1,50 @@
-<div class="container">
-  <cow-section-title
-    mainSection="Dashboard"
-    subSection="Visão Geral">
-  </cow-section-title>
+<cow-section-title
+  mainSection="Dashboard"
+  subSection="Visão Geral">
+</cow-section-title>
+
+<div
+  *ngIf="!isLoading"
+  class="container">
+  <div class="resume">
+    <div class="section info">
+      <p>Total de apontamentos parcelados</p>
+      <p class="value">{{ pendingStatementsWithInstallmentPlan }}</p>
+    </div>
+
+    <div class="section info">
+      <p>Valor total parcelado</p>
+      <p class="value">{{ amount | currency : 'BRL' }}</p>
+    </div>
+
+    <div class="section info">
+      <p>Apontamentos que ainda estão em aberto</p>
+      <p class="value">{{ totalPendingStatements }}</p>
+    </div>
+
+    <div class="section redirect">
+      <p>Para mais informações sobre os apontamentos apontados abaixo</p>
+
+      <cow-button [routerLink]="['/statements']">
+        <p content>Acesse os apontamentos</p>
+      </cow-button>
+    </div>
+  </div>
+
+  <div class="section">
+    <p-chart
+      width="45vw"
+      height="50vh"
+      type="pie"
+      [responsive]="true"
+      [data]="dataset$ | async"
+      [options]="options">
+    </p-chart>
+  </div>
+
 </div>
+
+<cow-loader
+  *ngIf="isLoading"
+  class="loading">
+</cow-loader>

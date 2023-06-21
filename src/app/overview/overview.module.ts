@@ -6,6 +6,10 @@ import { SectionTitleModule } from '../shared/components/section-title/section-t
 
 import { OverviewComponent } from './overview.component';
 
+import { LoaderModule } from '../shared/components/loader/loader.module';
+import { ButtonModule } from '../shared/components/button/button.module';
+import { ChartModule } from 'primeng/chart';
+
 @NgModule({
   declarations: [
     OverviewComponent
@@ -13,7 +17,10 @@ import { OverviewComponent } from './overview.component';
   imports: [
     CommonModule,
     OverviewRoutingModule,
-    SectionTitleModule
-  ]
+    ChartModule,
+    LoaderModule,
+    ButtonModule,
+    SectionTitleModule,
+  ],
 })
 export class OverviewModule { }
