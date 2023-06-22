@@ -1,0 +1,21 @@
+<div class="select-control">
+
+  <select
+    (blur)="onTouched(null)"
+    [ngClass]="{ 'error': control.touched && control.errors }"
+    [disabled]="disabled"
+    [(ngModel)]="value">
+
+    <ng-container *ngFor="let option of options">
+      <option [value]="option.key">
+        {{ option.value }}
+      </option>
+    </ng-container>
+
+  </select>
+
+  <ng-container *ngIf="hint && !(control.errors && control.touched)">
+    <small>{{ hint }}</small>
+  </ng-container>
+
+</div>
