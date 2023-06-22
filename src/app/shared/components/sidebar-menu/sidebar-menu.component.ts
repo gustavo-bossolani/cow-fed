@@ -48,7 +48,8 @@ export class SidebarMenuComponent implements OnInit, OnDestroy {
         },
         {
           label: 'Criar um novo',
-          icon: PrimeIcons.PLUS
+          icon: PrimeIcons.PLUS,
+          routerLink: '/statements/new',
         },
       ]
     },

@@ -1,0 +1,99 @@
+<cow-section-title mainSection="Apontamentos" subSection="Novo">
+</cow-section-title>
+
+<div class="container">
+
+  <div class="section">
+    <form [formGroup]="newStatementForm" (ngSubmit)="handlePasswordChange()">
+
+      <cow-input
+        type="text"
+        placeholder="Titulo"
+        formControlName="title">
+        <span *ngIf="
+          newStatementForm.get('title')?.touched &&
+          newStatementForm.get('title')?.hasError('required')"
+          error-message class="error-message">
+          Campo obrigatório
+        </span>
+
+        <span *ngIf="
+          newStatementForm.get('title')?.touched &&
+          newStatementForm.get('title')?.hasError('maxlength') ||
+          newStatementForm.get('title')?.hasError('minlength')"
+          error-message class="error-message">
+          Campo deve ter entre 4 e 20 caracteres
+        </span>
+      </cow-input>
+
+      <cow-input
+        type="text"
+        placeholder="Descrição"
+        formControlName="description">
+        <span *ngIf="
+          newStatementForm.get('description')?.touched &&
+          newStatementForm.get('description')?.hasError('maxlength')"
+          error-message class="error-message">
+          Campo não deve ultrapassar de 40 caracteres
+        </span>
+      </cow-input>
+
+      <cow-input
+        type="number"
+        placeholder="Total de parcelas"
+        hint="Para apontamentos pagos a vista (1x) apenas coloque 1"
+        formControlName="installment">
+        <span *ngIf="
+          newStatementForm.get('installment')?.touched &&
+          newStatementForm.get('installment')?.hasError('required')"
+          error-message class="error-message">
+          Campo obrigatório
+        </span>
+
+        <span *ngIf="
+          newStatementForm.get('installment')?.touched &&
+          newStatementForm.get('installment')?.hasError('min')"
+          error-message class="error-message">
+          Valor do parcelamento deve ser 1 (A vista) ou mais.
+        </span>
+      </cow-input>
+
+      <cow-input
+        type="text"
+        placeholder="Mês em que o pagamento se inicia"
+        hint="Data no formato mês-ano. Ex: 12-2010 (Dezembro de 2010)"
+        formControlName="startDate">
+        <span *ngIf="
+          newStatementForm.get('startDate')?.touched &&
+          newStatementForm.get('startDate')?.hasError('required')"
+          error-message class="error-message">
+          Campo obrigatório
+        </span>
+      </cow-input>
+
+      <cow-input
+        type="number"
+        placeholder="Valor total"
+        formControlName="amount">
+        <span *ngIf="
+          newStatementForm.get('amount')?.touched &&
+          newStatementForm.get('amount')?.hasError('required')"
+          error-message class="error-message">
+          Campo obrigatório
+        </span>
+      </cow-input>
+
+      <cow-select
+        [options]="options"
+        formControlName="category">
+      </cow-select>
+
+      <cow-button
+        [disabled]="newStatementForm.invalid"
+        type="primary">
+        <p content>Continuar</p>
+      </cow-button>
+    </form>
+  </div>
+
+</div>
