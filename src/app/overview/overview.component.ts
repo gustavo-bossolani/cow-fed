@@ -33,6 +33,13 @@ export class OverviewComponent implements AfterViewInit {
     this.populateOverview();
   }
 
+  protected get message(): string {
+    const month = new Date()
+      .toLocaleDateString('pt-BR', { month: 'long' })
+
+    return `Apontamentos referentes ao mês de ${month}, somados com os meses seguintes.`;
+  }
+
   private populateOverview(): void {
     this.overviewService.overviewAll()
       .pipe(
