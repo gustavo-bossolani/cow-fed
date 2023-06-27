@@ -1,10 +1,11 @@
-<cow-section-title mainSection="Apontamentos" subSection="Novo">
-</cow-section-title>
-
-<div class="container">
+<div style="height: 100%;">
+  <cow-section-title
+    mainSection="Apontamentos"
+    subSection="Novo">
+  </cow-section-title>
 
   <div class="section">
-    <form [formGroup]="newStatementForm" (ngSubmit)="handlePasswordChange()">
+    <form [formGroup]="newStatementForm" (ngSubmit)="handleCreateStatement()">
 
       <cow-input
         type="text"
@@ -39,9 +40,12 @@
       </cow-input>
 
       <cow-input
-        type="number"
+        type="text"
+        mask="0000"
+        suffix="x"
         placeholder="Total de parcelas"
         hint="Para apontamentos pagos a vista (1x) apenas coloque 1"
+        [removeSpecialCharacters]="true"
         formControlName="installment">
         <span *ngIf="
           newStatementForm.get('installment')?.touched &&
@@ -58,22 +62,62 @@
         </span>
       </cow-input>
 
-      <cow-input
-        type="text"
-        placeholder="Mês em que o pagamento se inicia"
-        hint="Data no formato mês-ano. Ex: 12-2010 (Dezembro de 2010)"
-        formControlName="startDate">
-        <span *ngIf="
-          newStatementForm.get('startDate')?.touched &&
-          newStatementForm.get('startDate')?.hasError('required')"
-          error-message class="error-message">
-          Campo obrigatório
-        </span>
-      </cow-input>
+      <div formGroupName="startDate" class="date-container">
+        <cow-input
+          type="text"
+          mask="00"
+          placeholder="Mês em que o pagamento se inicia"
+          [hint]="monthHint"
+          formControlName="month">
+          <span *ngIf="
+            newStatementForm.get('startDate')?.get('month')?.touched &&
+            newStatementForm.get('startDate')?.get('month')?.hasError('required')"
+            error-message class="error-message">
+            Campo obrigatório
+          </span>
+          <span *ngIf="
+            newStatementForm.get('startDate')?.get('month')?.touched &&
+            (
+              newStatementForm.get('startDate')?.get('month')?.hasError('minlength') ||
+              newStatementForm.get('startDate')?.get('month')?.hasError('pattern') ||
+              newStatementForm.get('startDate')?.get('month')?.hasError('invalidMonth')
+            )"
+            error-message class="error-message">
+            Mês incorreto
+          </span>
+        </cow-input>
+
+        <cow-input
+          type="text"
+          mask="0000"
+          placeholder="Ano em que o pagamento se inicia"
+          hint="Ex: 2010"
+          formControlName="year">
+          <span *ngIf="
+            newStatementForm.get('startDate')?.get('year')?.touched &&
+            newStatementForm.get('startDate')?.get('year')?.hasError('required')"
+            error-message class="error-message">
+            Campo obrigatório
+          </span>
+          <span *ngIf="
+            newStatementForm.get('startDate')?.get('year')?.touched &&
+            (
+              newStatementForm.get('startDate')?.get('year')?.hasError('minlength') ||
+              newStatementForm.get('startDate')?.get('year')?.hasError('min')
+            )"
+            error-message class="error-message">
+            Ano incorreto
+          </span>
+        </cow-input>
+      </div>
 
       <cow-input
-        type="number"
+        type="text"
+        mask="separator"
+        [prefix]="newStatementForm.get('amount')?.dirty ? 'R$ ' : ''"
         placeholder="Valor total"
+        hint="Para adicionar centavos, basta adicionar uma virgula com o valor"
+        [removeSpecialCharacters]="true"
         formControlName="amount">
         <span *ngIf="
           newStatementForm.get('amount')?.touched &&
@@ -84,16 +128,41 @@
       </cow-input>
 
       <cow-select
+        formControlName="category"
+        hint="Qual categoria este apontamento sem encaixa?"
         [options]="options"
-        formControlName="category">
+        [defaultOption]="{ value: '', label: 'Outros ou Nenhum' }">
+        <span *ngIf="
+          newStatementForm.get('category')?.touched &&
+          newStatementForm.get('category')?.hasError('fetchError')"
+          error-message class="error-message">
+          Erro ao carregar categorias, é possível editar este novo apontamento novamente no futuro
+        </span>
       </cow-select>
+
+      <span
+        style="align-self: center;"
+        *ngIf="
+          newStatementForm.hasError('systemError')
+        "
+        error-message
+        class="error-message">
+        Ocorreu algum erro, tente novamente.
+      </span>
+
+      <cow-loader
+        style="align-self: center;"
+        class="loading"
+        type="small"
+        *ngIf="(isLoading$ | async)">
+      </cow-loader>
 
       <cow-button
         [disabled]="newStatementForm.invalid"
         type="primary">
-        <p content>Continuar</p>
+        <p content>Criar apontamento</p>
       </cow-button>
+
     </form>
   </div>
-
 </div>
