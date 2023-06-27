@@ -7,13 +7,13 @@
     thousandSeparator="."
     decimalMarker=","
     (blur)="onTouched(null)"
-    [ngClass]="{ 'error': control.touched && control.errors }"
+    [ngClass]="{ 'error': (control && control.touched && control.errors) }"
     [disabled]="disabled"
     [placeholder]="placeholder ? placeholder : ''"
     [type]="type"
     [(ngModel)]="value" />
 
-    <ng-container *ngIf="hint && !(control.errors && control.touched)">
+    <ng-container *ngIf="hint && !(control && control.errors && control.touched)">
       <small>{{ hint }}</small>
     </ng-container>
   <ng-content></ng-content>

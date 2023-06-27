@@ -2,7 +2,7 @@
 
   <select
     (blur)="onTouched(null)"
-    [ngClass]="{ 'error': control.touched && control.errors }"
+    [ngClass]="{ 'error': (control && control.touched && control.errors) }"
     [disabled]="disabled"
     [(ngModel)]="value">
 
@@ -20,7 +20,7 @@
 
   </select>
 
-  <ng-container *ngIf="hint && !(control.errors && control.touched)">
+  <ng-container *ngIf="hint && !(control && control.errors && control.touched)">
     <small>{{ hint }}</small>
   </ng-container>
 
