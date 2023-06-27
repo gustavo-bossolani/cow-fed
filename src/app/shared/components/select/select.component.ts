@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 
 @Component({
@@ -21,13 +21,16 @@ import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, Va
 export class SelectComponent implements ControlValueAccessor, Validator {
 
   @Input()
-  options!: { key: string, value: string }[];
+  options!: Map<string, string>;
 
   @Input()
   hint!: string;
 
   @Input()
   disabled!: boolean;
+
+  @Input()
+  defaultOption!: { value: string; label: string };
 
   protected control!: FormControl;
   protected onTouched = (_: any) => { };

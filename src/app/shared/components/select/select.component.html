@@ -6,7 +6,13 @@
     [disabled]="disabled"
     [(ngModel)]="value">
 
-    <ng-container *ngFor="let option of options">
+    <ng-container *ngIf="defaultOption">
+      <option [value]="defaultOption.value">
+        {{ defaultOption.label }}
+      </option>
+    </ng-container>
+
+    <ng-container *ngFor="let option of options | keyvalue">
       <option [value]="option.key">
         {{ option.value }}
       </option>
