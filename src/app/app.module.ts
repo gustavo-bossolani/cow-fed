@@ -12,7 +12,8 @@ import { AuthModule } from './auth/auth.module';
 import { SidebarMenuModule } from './shared/components/sidebar-menu/sidebar-menu.module';
 
 import { AuthTokenInterceptor } from './auth/interceptor/auth-token.interceptor';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+import { NgxMaskModule } from 'ngx-mask';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -23,7 +24,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SidebarMenuModule,
     HttpClientModule,
     AuthModule.forRoot(),
-    FontAwesomeModule
+    NgxMaskModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }

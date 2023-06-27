@@ -36,6 +36,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.3.0",
+    "ngx-mask": "^14.0.0",
     "primeicons": "^6.0.1",
     "primeng": "^15.4.1",
     "rxjs": "~7.8.0",
