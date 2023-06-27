@@ -1,5 +1,11 @@
 <div class="input-control">
   <input
+    [prefix]="prefix ? prefix : ''"
+    [suffix]="suffix ? suffix : ''"
+    [mask]="mask"
+    [dropSpecialCharacters]="removeSpecialCharacters"
+    thousandSeparator="."
+    decimalMarker=","
     (blur)="onTouched(null)"
     [ngClass]="{ 'error': control.touched && control.errors }"
     [disabled]="disabled"

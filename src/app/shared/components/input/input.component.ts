@@ -1,4 +1,4 @@
-import { Component, Attribute, forwardRef, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Attribute, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 
 @Component({
@@ -25,6 +25,18 @@ export class InputComponent implements ControlValueAccessor, Validator {
 
   @Input()
   hint!: string;
+
+  @Input()
+  mask!: string;
+
+  @Input()
+  suffix!: string;
+
+  @Input()
+  prefix!: string;
+
+  @Input()
+  removeSpecialCharacters: boolean = false;
 
   protected control!: FormControl;
   protected onTouched = (_: any) => { };

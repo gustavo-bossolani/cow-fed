@@ -1,3 +1,4 @@
+import { NgxMaskModule } from 'ngx-mask';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +11,8 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    NgxMaskModule.forChild()
   ],
   exports: [
     InputComponent
