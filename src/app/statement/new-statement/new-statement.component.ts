@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, Validators } from '@angular/forms';
 import { BehaviorSubject, finalize, tap } from 'rxjs';
+
+import { AlertType } from 'src/app/shared/components/alert/models/alert.model';
+import { AlertService } from 'src/app/shared/components/alert/services/alert.service';
 import { Statement } from 'src/app/shared/models/statement/statement.model';
 
 import { CategoryService } from 'src/app/shared/services/category/category.service';
@@ -59,7 +62,8 @@ export class NewStatementComponent implements OnInit {
   constructor(
     private builder: FormBuilder,
     private categoryService: CategoryService,
-    private statementService: StatementService
+    private statementService: StatementService,
+    private alertService: AlertService,
   ) { }
 
   ngOnInit(): void {
@@ -112,6 +116,10 @@ export class NewStatementComponent implements OnInit {
         next: () => {
           this.newStatementForm.reset();
           this.newStatementForm.enable();
+          this.alertService.openAlert({
+            type: AlertType.SUCCESS,
+            message: 'Seu apontamento foi criado e está disponivel nas sessões gerais.'
+          });
         },
         error: () => {
           this.newStatementForm.enable();
@@ -121,6 +129,7 @@ export class NewStatementComponent implements OnInit {
   }
 
   private getCategories(): void {
+    this.newStatementForm.get('category')?.disable();
     this.categoryService.getCategories()
       .pipe(
         tap(
@@ -129,8 +138,8 @@ export class NewStatementComponent implements OnInit {
         )
       )
       .subscribe({
+        next: () => this.newStatementForm.get('category')?.enable(),
         error: _ => {
-          console.log('error')
           const categoryControl = this.newStatementForm.get('category');
           categoryControl?.setErrors({ fetchError: true });
           categoryControl?.disable();
