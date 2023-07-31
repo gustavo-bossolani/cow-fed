@@ -1,0 +1,57 @@
+<div style="height: 100%;">
+  <cow-section-title
+    mainSection="Categorias"
+    subSection="Novo">
+  </cow-section-title>
+
+  <div class="section">
+    <form [formGroup]="newCategoryForm" (ngSubmit)="handleCreateCategory()">
+
+      <div class="category">
+        <cow-input
+          type="text"
+          placeholder="Titulo"
+          formControlName="name">
+
+          <span *ngIf="
+            newCategoryForm.get('name')?.touched &&
+            newCategoryForm.get('name')?.hasError('required')"
+            error-message class="error-message">
+            Campo obrigatório.
+          </span>
+
+          <span *ngIf="
+            newCategoryForm.get('name')?.hasError('categoryAlreadyExists')"
+            error-message class="error-message">
+            Nome já cadastrado, você pode usar o mesmo ou tentar achar um diferente.
+          </span>
+
+          <span *ngIf="
+            newCategoryForm.get('name')?.hasError('internalError')"
+            error-message class="error-message">
+            Ocorreu um erro, tente novamente mais tarde.
+          </span>
+
+        </cow-input>
+
+        <cow-color-picker
+          hint="Essa é a cor da etiqueta de sua categoria"
+          formControlName="color">
+        </cow-color-picker>
+      </div>
+
+      <cow-loader
+        style="align-self: center;"
+        class="loading"
+        type="small"
+        *ngIf="(isLoading$ | async)">
+      </cow-loader>
+
+      <cow-button
+        [disabled]="newCategoryForm.invalid || !!(isLoading$ | async)"
+        type="primary">
+        <p content>Criar categoria</p>
+      </cow-button>
+    </form>
+  </div>
+</div>

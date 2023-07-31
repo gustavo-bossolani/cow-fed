@@ -1,0 +1,39 @@
+@import variables
+
+.section
+  display: flex
+  flex-direction: column
+  align-items: center
+  background: $base-neutral-color
+  border-radius: 10px
+  margin: 2rem
+  height: 90%
+
+form
+  display: flex
+  flex-direction: column
+  justify-content: center
+  height: 100%
+  width: 100%
+  padding: 2rem
+
+  .category
+    width: 100%
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    align-items: center
+
+    *
+      width: 50%
+      margin: 1rem 0
+
+    .error-message
+      width: 100%
+
+cow-button
+    align-self: center
+    margin: 2rem
+
+p[content]
+  font-size: 16px
