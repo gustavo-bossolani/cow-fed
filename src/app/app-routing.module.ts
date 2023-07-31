@@ -35,6 +35,12 @@ const routes: Routes = [
       .then(m => m.StatementModule)
   },
   {
+    path: 'categories',
+    canActivate: [PrivateSectionGuard],
+    loadChildren: () => import('./category/category.module')
+      .then(m => m.CategoryModule)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
