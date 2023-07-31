@@ -1,0 +1,14 @@
+<div class="input-control">
+  <p>{{ label }}</p>
+  <input
+    type="color"
+    (blur)="onTouched(null)"
+    [ngClass]="{ 'error': (control && control.touched && control.errors) }"
+    [disabled]="disabled"
+    [(ngModel)]="value" />
+
+</div>
+
+<ng-container *ngIf="hint && !(control && control.errors && control.touched)">
+  <small>{{ hint }}</small>
+</ng-container>

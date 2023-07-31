@@ -1,0 +1,32 @@
+@import variables
+
+.input-control
+  display: flex
+  align-items: center
+
+
+input
+  border: none
+  background: $base-color
+  border-radius: 2px
+  transition: all .2s
+  &:hover
+    cursor: pointer
+    background: darken($base-color, 10%)
+
+  &[disabled]
+    background: $disabled-color
+    border-color: $base-neutral-color
+    cursor: no-drop
+
+small
+  font-family: "mulish-light", sans-serif
+  font-size: 0.8rem
+  margin-bottom: 1rem
+  align-self: flex-start
+
+
+p
+  font-family: 'mulish-bold', sans-serif
+  font-size: 1rem
+  margin-right: 1rem
