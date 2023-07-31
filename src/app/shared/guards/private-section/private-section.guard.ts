@@ -29,8 +29,8 @@ export class PrivateSectionGuard {
         tap(isLogged => this.authService.isLogged$.next(isLogged)),
         tap(isLogged => {
           if (!isLogged) {
-            this.router.navigate(['auth']);
-            this.alertService.openAlert({ type: AlertType.INFO, message: 'Sessão está expirada, faça o login novamente para seguir.' })
+            this.authService.logout();
+            this.alertService.openAlert({ type: AlertType.INFO, message: 'Sessão está expirada, faça o login novamente para seguir.' });
           }
         }),
       )
